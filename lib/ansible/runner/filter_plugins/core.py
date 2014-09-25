@@ -219,6 +219,14 @@ def version_compare(value, version, operator='eq', strict=False):
     except Exception, e:
         raise errors.AnsibleFilterError('Version comparison: %s' % e)
 
+def ip4net(address):
+    import ipaddress
+    return ipaddress.IPv4Network(address)
+
+def ip6net(address):
+    import ipaddress
+    return ipaddress.IPv6Network(address)
+
 @environmentfilter
 def rand(environment, end, start=None, step=None):
     r = SystemRandom()
@@ -320,4 +328,8 @@ class FilterModule(object):
             # random stuff
             'random': rand,
             'shuffle': randomize_list,
+
+            # IP objects
+            'ip4net': ip4net,
+            'ip6net': ip6net,
         }
